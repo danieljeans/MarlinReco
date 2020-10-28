@@ -1,3 +1,49 @@
+# v01-28
+
+* 2020-09-02 Carl Mikael Berggren ([PR#81](https://github.com/iLCSoft/MarlinReco/pull/81))
+  - Fix wrong signs in Jacobian in the transformation of the covariance matrix of cluster CoG and Energy to neutral PFO (E,px,py,pz), and double declaration of local variable Eerror.  Update example  CMakeLists.txt and AddClusterProperties.xml to work in the present world.
+
+* 2020-09-02 Junping Tian ([PR#79](https://github.com/iLCSoft/MarlinReco/pull/79))
+  - added a new processor for finding isolated photon
+  - the default option for isolated muon finder is changed back to use Yoke energy
+
+* 2020-08-31 Yasser Radkhorrami ([PR#80](https://github.com/iLCSoft/MarlinReco/pull/80))
+  - An option is added to include full CovMat of neutral PFOs in jet error
+
+# v01-27
+
+* 2020-07-01 Junping Tian ([PR#78](https://github.com/iLCSoft/MarlinReco/pull/78))
+  - add a new processor which can be used to obtain the input variables for isolated lepton training
+  - add a MVA Classification macro for training
+
+* 2020-07-01 Daniel Jeans ([PR#74](https://github.com/iLCSoft/MarlinReco/pull/74))
+  - DDStripSplitter:
+    - now run separately for barrel and endcap
+    - create hit relations for split hits
+    - some cleaning up of code (remove some histograms; fix compiler warnings, etc)
+  - RecoMCTruthLinker
+    - adapt to work with split hits
+    - fix some compiler warnings
+  - PhotonCorrectionProcessor
+    - check that corrections requested before calculating them
+    - add some debug printouts
+
+* 2020-06-29 Junping Tian ([PR#76](https://github.com/iLCSoft/MarlinReco/pull/76))
+  - added a processor which can be used to obtain the needed input variables for MVA training of IsolatedLeptonTagging
+  - added a root macro of MVA Classification for the training.
+
+* 2020-06-15 JennyListDESY ([PR#75](https://github.com/iLCSoft/MarlinReco/pull/75))
+  - adding four-momentum covariance matrix calculation for V0s 
+    based on covariance matrices of the two tracks
+
+* 2020-05-13 Daniel Jeans ([PR#73](https://github.com/iLCSoft/MarlinReco/pull/73))
+  - add photonPFO direction correction to "PhotonEnergyCorrect" package
+
+* 2020-04-17 Daniel Jeans ([PR#72](https://github.com/iLCSoft/MarlinReco/pull/72))
+  - bug fix in photonCorrectionProcessor:
+         - adjust the magnitude of the *momentum* of photon PFOs, not just their energies.
+            (this bug resulted in photon PFOs with inconsistent energy and momentum.)
+
 # v01-26
 
 * 2019-12-11 Daniel Jeans ([PR#71](https://github.com/iLCSoft/MarlinReco/pull/71))

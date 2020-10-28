@@ -35,42 +35,57 @@ class photonCorrector {
     _endcap_gaus2_sigm          = 0.;
     _assumed_boxsize            = 0.;
     _assumed_endZ               = 0.;
+
+    _phiBias_barrel_p0_1 = 0.;
+    _phiBias_barrel_p0_2 = 0.;
+    _phiBias_barrel_p0_3 = 0.;
+    _phiBias_barrel_p0_4 = 0.;
+    _phiBias_barrel_p1_1 = 0.;
+    _phiBias_barrel_p1_2 = 0.;
+    _phiBias_barrel_p2_1 = 0.;
+    _phiBias_barrel_p2_2 = 0.;
+    _phiBias_barrel_p3_1 = 0.;
+    _phiBias_barrel_p4_1 = 0.;
+    _phiBias_barrel_p5_1 = 0.;
+    _phiBias_barrel_p5_2 = 0.;
+    _phiBias_barrel_p5_3 = 0.;
+    _phiBias_barrel_p6_1 = 0.;
+    _phiBias_barrel_p6_2 = 0.;
+    _phiBias_barrel_p7_1 = 0.;
+    _phiBias_barrel_p7_2 = 0.;
+    _phiBias_barrel_p7_3 = 0.;
+    _thetaBias_barrel_p0_1 = 0;
+    _thetaBias_barrel_p0_2 = 0;
+    _thetaBias_barrel_p1_1 = 0;
+    _thetaBias_barrel_p1_2 = 0;
+    _thetaBias_endcap_p0_1 = 0.;
+    _thetaBias_endcap_p0_2 = 0.;
+    _thetaBias_endcap_p1_1 = 0.;
+    _thetaBias_endcap_p1_2 = 0.;
+    _thetaBias_endcap_p2_1 = 0.;
+    _thetaBias_endcap_p2_2 = 0.;
+
   }
   ~photonCorrector() {}
 
 
   // the main energy corrector
   float photonEnergyCorrection( EVENT::ReconstructedParticle* rp );
+  void  photonDirectionCorrection( EVENT::ReconstructedParticle* rp , float& cor_theta, float& cor_phi );
 
   // parameter setters
   void set_barrelendcap_limit         ( float x ) { _barrelendcap_costhlimit    = x; }
-  void set_energyLin_const            ( float x ) { _energyLin_const            = x; }
-  void set_energyLin_logen            ( float x ) { _energyLin_logen            = x; }
-  void set_phiBarrelCorr_pos_const    ( float x ) { _phiBarrelCorr_pos_const    = x; }
-  void set_phiBarrelCorr_pos_logen    ( float x ) { _phiBarrelCorr_pos_logen    = x; }
-  void set_phiBarrelCorr_depth        ( float x ) { _phiBarrelCorr_depth        = x; }
-  void set_phiBarrelCorr_width1       ( float x ) { _phiBarrelCorr_width1       = x; }
-  void set_phiBarrelCorr_width2       ( float x ) { _phiBarrelCorr_width2       = x; }
-  void set_costhCorr_gaus1_norm_const ( float x ) { _costhCorr_gaus1_norm_const = x; }
-  void set_costhCorr_gaus1_norm_logen ( float x ) { _costhCorr_gaus1_norm_logen = x; }
-  void set_costhCorr_gaus1_mean       ( float x ) { _costhCorr_gaus1_mean       = x; }
-  void set_costhCorr_gaus1_sigm       ( float x ) { _costhCorr_gaus1_sigm       = x; }
-  void set_costhCorr_gaus2_norm_const ( float x ) { _costhCorr_gaus2_norm_const = x; }
-  void set_costhCorr_gaus2_norm_logen ( float x ) { _costhCorr_gaus2_norm_logen = x; }
-  void set_costhCorr_gaus2_mean       ( float x ) { _costhCorr_gaus2_mean       = x; }
-  void set_costhCorr_gaus2_sigm       ( float x ) { _costhCorr_gaus2_sigm       = x; }
-  void set_costhCorr_gaus3_norm       ( float x ) { _costhCorr_gaus3_norm       = x; }
-  void set_costhCorr_gaus3_mean       ( float x ) { _costhCorr_gaus3_mean       = x; }
-  void set_costhCorr_gaus3_sigm       ( float x ) { _costhCorr_gaus3_sigm       = x; }
-  void set_costhCorr_endcap_scale     ( float x ) { _costhCorr_endcap_scale     = x; }
-  void set_endcap_gaus1_norm          ( float x ) { _endcap_gaus1_norm          = x; }
-  void set_endcap_gaus1_mean          ( float x ) { _endcap_gaus1_mean          = x; }
-  void set_endcap_gaus1_sigm          ( float x ) { _endcap_gaus1_sigm          = x; }
-  void set_endcap_gaus2_norm          ( float x ) { _endcap_gaus2_norm          = x; }
-  void set_endcap_gaus2_mean          ( float x ) { _endcap_gaus2_mean          = x; }
-  void set_endcap_gaus2_sigm          ( float x ) { _endcap_gaus2_sigm          = x; }
   void set_assumed_boxsize            ( float x ) { _assumed_boxsize            = x; }
   void set_assumed_endZ               ( float x ) { _assumed_endZ               = x; }
+
+
+  void set_energyCorr_linearise ( std::vector <float> pars );
+  void set_energyCorr_barrelPhi ( std::vector <float> pars );
+  void set_energyCorr_costheta  ( std::vector <float> pars );
+  void set_energyCorr_endcap    ( std::vector <float> pars );
+  void set_phiCorr_barrel       ( std::vector <float> pars );
+  void set_thetaCorr_barrel     ( std::vector <float> pars );
+  void set_thetaCorr_endcap     ( std::vector <float> pars );
 
   float get_barrelendcap_limit         ( ) { return _barrelendcap_costhlimit    ; }
   float get_energyLin_const            ( ) { return _energyLin_const            ; }
@@ -101,6 +116,37 @@ class photonCorrector {
   float get_assumed_boxsize            ( ) { return _assumed_boxsize            ; }
   float get_assumed_endZ               ( ) { return _assumed_endZ               ; }
 
+
+  float get_phiBias_barrel_p0_1    () {return _phiBias_barrel_p0_1  ;}
+  float get_phiBias_barrel_p0_2    () {return _phiBias_barrel_p0_2  ;}
+  float get_phiBias_barrel_p0_3    () {return _phiBias_barrel_p0_3  ;}
+  float get_phiBias_barrel_p0_4    () {return _phiBias_barrel_p0_4  ;}
+  float get_phiBias_barrel_p1_1    () {return _phiBias_barrel_p1_1  ;}
+  float get_phiBias_barrel_p1_2    () {return _phiBias_barrel_p1_2  ;}
+  float get_phiBias_barrel_p2_1    () {return _phiBias_barrel_p2_1  ;}
+  float get_phiBias_barrel_p2_2    () {return _phiBias_barrel_p2_2  ;}
+  float get_phiBias_barrel_p3_1    () {return _phiBias_barrel_p3_1  ;}
+  float get_phiBias_barrel_p4_1    () {return _phiBias_barrel_p4_1  ;}
+  float get_phiBias_barrel_p5_1    () {return _phiBias_barrel_p5_1  ;}
+  float get_phiBias_barrel_p5_2    () {return _phiBias_barrel_p5_2  ;}
+  float get_phiBias_barrel_p5_3    () {return _phiBias_barrel_p5_3  ;}
+  float get_phiBias_barrel_p6_1    () {return _phiBias_barrel_p6_1  ;}
+  float get_phiBias_barrel_p6_2    () {return _phiBias_barrel_p6_2  ;}
+  float get_phiBias_barrel_p7_1    () {return _phiBias_barrel_p7_1  ;}
+  float get_phiBias_barrel_p7_2    () {return _phiBias_barrel_p7_2  ;}
+  float get_phiBias_barrel_p7_3    () {return _phiBias_barrel_p7_3  ;}
+  float get_thetaBias_barrel_p0_1  () {return _thetaBias_barrel_p0_1;}
+  float get_thetaBias_barrel_p0_2  () {return _thetaBias_barrel_p0_2;}
+  float get_thetaBias_barrel_p1_1  () {return _thetaBias_barrel_p1_1;}
+  float get_thetaBias_barrel_p1_2  () {return _thetaBias_barrel_p1_2;}
+  float get_thetaBias_endcap_p0_1  () {return _thetaBias_endcap_p0_1;}
+  float get_thetaBias_endcap_p0_2  () {return _thetaBias_endcap_p0_2;}
+  float get_thetaBias_endcap_p1_1  () {return _thetaBias_endcap_p1_1;}
+  float get_thetaBias_endcap_p1_2  () {return _thetaBias_endcap_p1_2;}
+  float get_thetaBias_endcap_p2_1  () {return _thetaBias_endcap_p2_1;}
+  float get_thetaBias_endcap_p2_2  () {return _thetaBias_endcap_p2_2;}
+
+
   void printParams();
 
  private:
@@ -112,6 +158,14 @@ class photonCorrector {
   float gapCompensate_endcap( float xAcross );
   float getDistanceAcrossEndcapQuadrant( float costh, float phi );
   float getBarrelFoldedPhi( float phi);
+
+  float getBarrelCorrectedPhi( float en, float phi );
+  float getCorrectedPhi      ( float en, float costh, float phi );
+
+  float getBarrelCorrectedTheta( float en, float theta );
+  float getEndcapCorrectedTheta( float en, float theta );
+  float getCorrectedTheta      ( float en, float theta );
+
 
   // -------------------
 
@@ -147,6 +201,35 @@ class photonCorrector {
   float _endcap_gaus2_norm{};
   float _endcap_gaus2_mean{};
   float _endcap_gaus2_sigm{};
+
+  float _phiBias_barrel_p0_1  {};
+  float _phiBias_barrel_p0_2  {};
+  float _phiBias_barrel_p0_3  {};
+  float _phiBias_barrel_p0_4  {};
+  float _phiBias_barrel_p1_1  {};
+  float _phiBias_barrel_p1_2  {};
+  float _phiBias_barrel_p2_1  {};
+  float _phiBias_barrel_p2_2  {};
+  float _phiBias_barrel_p3_1  {};
+  float _phiBias_barrel_p4_1  {};
+  float _phiBias_barrel_p5_1  {};
+  float _phiBias_barrel_p5_2  {};
+  float _phiBias_barrel_p5_3  {};
+  float _phiBias_barrel_p6_1  {};
+  float _phiBias_barrel_p6_2  {};
+  float _phiBias_barrel_p7_1  {};
+  float _phiBias_barrel_p7_2  {};
+  float _phiBias_barrel_p7_3  {};
+  float _thetaBias_barrel_p0_1{};
+  float _thetaBias_barrel_p0_2{};
+  float _thetaBias_barrel_p1_1{};
+  float _thetaBias_barrel_p1_2{};
+  float _thetaBias_endcap_p0_1{};
+  float _thetaBias_endcap_p0_2{};
+  float _thetaBias_endcap_p1_1{};
+  float _thetaBias_endcap_p1_2{};
+  float _thetaBias_endcap_p2_1{};
+  float _thetaBias_endcap_p2_2{};
 
   float _assumed_boxsize{};
   float _assumed_endZ{};
